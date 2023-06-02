@@ -30,6 +30,7 @@ import javafx.scene.shape.Line;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -62,8 +63,8 @@ public class ToileController implements Initializable {
     Circle point4 = new Circle();
     Circle point5 = new Circle();
     Circle point6 = new Circle();
-
     ObservableList<Circle> tabPoint = FXCollections.observableArrayList();
+    Collection<Line> ligneTrace = new ArrayList<Line>();
 
 
     @Override
@@ -137,14 +138,17 @@ public class ToileController implements Initializable {
             Radar.getChildren().remove(point5);
         if (Radar.getChildren().contains(point6))
             Radar.getChildren().remove(point6);
-        tabPoint.removeAll();
+        tabPoint.removeAll(tabPoint);
+        Radar.getChildren().removeAll(ligneTrace);
     }
 
     @FXML
     public void Tracer(){
         for (int i=0; i < tabPoint.size(); i+=1){
             Line tmpLine = new Line();
+            tmpLine.setFill(Color.BLACK);
             Radar.getChildren().add(tmpLine);
+            ligneTrace.add(tmpLine);
             tmpLine.startXProperty().bind(tabPoint.get(i).centerXProperty());
             tmpLine.startYProperty().bind(tabPoint.get(i).centerYProperty());
             if (i+1 == tabPoint.size()){
