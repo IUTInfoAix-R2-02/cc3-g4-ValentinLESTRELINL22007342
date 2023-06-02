@@ -1,9 +1,7 @@
 package fr.amu.iut.cc3;
 
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleListProperty;
+import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -11,10 +9,12 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Point2D;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.PointLight;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.Light;
 import javafx.scene.input.KeyCode;
@@ -22,6 +22,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 
@@ -38,16 +39,43 @@ public class ToileController implements Initializable {
     private static int noteMaximale = 20;
 
     @FXML
-    Pane radar;
+    Pane Radar;
     @FXML
-    TextField comp1 = new TextField();
+    TextField comp1;
     @FXML
     TextField comp2;
+    @FXML
+    TextField comp3;
+    @FXML
+    TextField comp4;
+    @FXML
+    TextField comp5;
+    @FXML
+    TextField comp6;
+    @FXML
+    Label labErr;
+    Circle point1 = new Circle();
+    Circle point2 = new Circle();
+    Circle point3 = new Circle();
+    Circle point4 = new Circle();
+    Circle point5 = new Circle();
+    Circle point6 = new Circle();
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         comp1.addEventHandler(KeyEvent.KEY_PRESSED,
-                keyEvent -> pointInRadar(keyEvent, 1, comp1.getText()));
+                keyEvent -> pointHandle(keyEvent,1, comp1.getText(), point1));
+        comp2.addEventHandler(KeyEvent.KEY_PRESSED,
+                keyEvent -> pointHandle(keyEvent,2, comp2.getText(), point2));
+        comp3.addEventHandler(KeyEvent.KEY_PRESSED,
+                keyEvent -> pointHandle(keyEvent,3, comp3.getText(), point3));
+        comp4.addEventHandler(KeyEvent.KEY_PRESSED,
+                keyEvent -> pointHandle(keyEvent,4, comp4.getText(), point4));
+        comp5.addEventHandler(KeyEvent.KEY_PRESSED,
+                keyEvent -> pointHandle(keyEvent,5, comp5.getText(), point5));
+        comp6.addEventHandler(KeyEvent.KEY_PRESSED,
+                keyEvent -> pointHandle(keyEvent,6, comp6.getText(), point6));
     }
 
     int getXRadarChart(double value, int axe ){
@@ -60,19 +88,50 @@ public class ToileController implements Initializable {
                 *  (value / noteMaximale));
     }
 
-    private void pointInRadar(KeyEvent event, int competence, String number){
+    public void pointHandle(KeyEvent event, int comp, String number, Circle point) {
         if (event.getCode().equals(KeyCode.ENTER)) {
             if (number.matches("[0-9]+")) {
                 double nb = Integer.valueOf(number);
-                if (nb >= 0 && nb <= 20){
-                    Circle pointGraphe = new Circle();
-                    pointGraphe.setCenterY(getYRadarChart(nb, competence));
-                    pointGraphe.setCenterX(getXRadarChart(nb, competence));
-                    pointGraphe.setStyle("-fx-background-color: black");
-                    pointGraphe.setRadius(10.00);
+                if (nb >= 0 && nb <= 20) {
+                    point.setRadius(5);
+                    point.setFill(Color.BLACK);
+                    if (Radar.getChildren().contains(point)) {
+                        point.setCenterX(getXRadarChart(nb, comp));
+                        point.setCenterY(getYRadarChart(nb, comp));
+                    }
+                    else {
+                        Radar.getChildren().add(point);
+                        point.setCenterX(getXRadarChart(nb, comp));
+                        point.setCenterY(getYRadarChart(nb, comp));
+                    }
+                }
+                else {
+                    labErr.setText("Erreur de saisie : \n"+"Les valeurs doivent être entre 0 et 20");
                 }
             }
         }
+    }
+    @FXML
+    public void viderButton(){
+        labErr.setText("");
+        comp1.setText("");
+        comp2.setText("");
+        comp3.setText("");
+        comp4.setText("");
+        comp5.setText("");
+        comp6.setText("");
+        if (Radar.getChildren().contains(point1))
+            Radar.getChildren().remove(point1);
+        if (Radar.getChildren().contains(point2))
+            Radar.getChildren().remove(point2);
+        if (Radar.getChildren().contains(point3))
+            Radar.getChildren().remove(point3);
+        if (Radar.getChildren().contains(point4))
+            Radar.getChildren().remove(point4);
+        if (Radar.getChildren().contains(point5))
+            Radar.getChildren().remove(point5);
+        if (Radar.getChildren().contains(point6))
+            Radar.getChildren().remove(point6);
     }
 
 }

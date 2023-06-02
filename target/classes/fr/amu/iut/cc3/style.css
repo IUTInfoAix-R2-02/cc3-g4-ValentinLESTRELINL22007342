@@ -14,3 +14,6 @@ Line {
     -fx-stroke: "blue";
     -fx-stroke-width: 2;
 }
+.Scene{
+    -fx-background-color: "lightBlue";
+}
