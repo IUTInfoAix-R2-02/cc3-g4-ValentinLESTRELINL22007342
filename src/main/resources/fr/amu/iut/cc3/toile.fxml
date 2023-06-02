@@ -61,8 +61,8 @@
             <font>
                <Font size="11.0" />
             </font></Label>
-         <Button layoutX="153.0" layoutY="356.0" mnemonicParsing="false" onAction="#viderButton" text="Vider" />
-         <Button mnemonicParsing="false" text="Button" />
+         <Button layoutX="137.0" layoutY="356.0" mnemonicParsing="false" onAction="#viderButton" text="Vider" />
+         <Button layoutX="51.0" layoutY="356.0" mnemonicParsing="false" onAction="#Tracer" text="Tracer" />
       </children>
    </AnchorPane>
 </HBox>

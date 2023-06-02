@@ -1,9 +1,11 @@
 package fr.amu.iut.cc3;
 
+import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -61,6 +63,8 @@ public class ToileController implements Initializable {
     Circle point5 = new Circle();
     Circle point6 = new Circle();
 
+    ObservableList<Circle> tabPoint = FXCollections.observableArrayList();
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -103,6 +107,7 @@ public class ToileController implements Initializable {
                         Radar.getChildren().add(point);
                         point.setCenterX(getXRadarChart(nb, comp));
                         point.setCenterY(getYRadarChart(nb, comp));
+                        tabPoint.add(point);
                     }
                 }
                 else {
@@ -132,6 +137,24 @@ public class ToileController implements Initializable {
             Radar.getChildren().remove(point5);
         if (Radar.getChildren().contains(point6))
             Radar.getChildren().remove(point6);
+        tabPoint.removeAll();
     }
 
+    @FXML
+    public void Tracer(){
+        for (int i=0; i < tabPoint.size(); i+=1){
+            Line tmpLine = new Line();
+            Radar.getChildren().add(tmpLine);
+            tmpLine.startXProperty().bind(tabPoint.get(i).centerXProperty());
+            tmpLine.startYProperty().bind(tabPoint.get(i).centerYProperty());
+            if (i+1 == tabPoint.size()){
+                tmpLine.endXProperty().bind(tabPoint.get(0).centerXProperty());
+                tmpLine.endYProperty().bind(tabPoint.get(0).centerYProperty());
+            }
+            else {
+                tmpLine.endXProperty().bind(tabPoint.get(i+1).centerXProperty());
+                tmpLine.endYProperty().bind(tabPoint.get(i+1).centerYProperty());
+            }
+        }
+    }
 }
