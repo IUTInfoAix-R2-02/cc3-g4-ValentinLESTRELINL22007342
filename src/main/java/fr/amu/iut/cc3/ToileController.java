@@ -146,7 +146,7 @@ public class ToileController implements Initializable {
     public void Tracer(){
         for (int i=0; i < tabPoint.size(); i+=1){
             Line tmpLine = new Line();
-            tmpLine.setFill(Color.BLACK);
+            tmpLine.setStyle("-fx-stroke: black;");
             Radar.getChildren().add(tmpLine);
             ligneTrace.add(tmpLine);
             tmpLine.startXProperty().bind(tabPoint.get(i).centerXProperty());
